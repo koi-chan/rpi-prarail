@@ -88,6 +88,22 @@ class RpiPrarail
   def _sleep
     sleep(SLEEP)
   end
+
+  # シグナルハンドラを設定する
+  # @return [void]
+  def set_signal_handler
+    # シグナルを捕捉し、ボットを終了させる処理
+    # trap 内で普通に bot.quit すると ThreadError が出るので
+    # 新しい Thread で包む
+    %i(SIGINT SIGTERM).each do |signal|
+      Signal.trap(signal) do
+        Thread.new(signal) do |sig|
+          puts(sig)
+          stop
+        end
+      end
+    end
+  end
 end
 
 class RpiPrarail::PWM
@@ -118,4 +134,10 @@ class RpiPrarail::PWM
   end
 end
 
+puts('program started.')
 prarail = RpiPrarail.new
+
+puts('testing...')
+prarail.start
+sleep(1)
+prarail.stop
