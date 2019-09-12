@@ -34,6 +34,7 @@ class RpiPrarail
     @pin_in2 = PiPiper::Pin.new(pin: PIN_IN2, direction: :out)
     @pwm = nil
     @coast = true
+    @thread = nil
 
     stop
   end
@@ -136,9 +137,9 @@ end
 
 puts('program started.')
 @prarail = RpiPrarail.new
-@prarail.pwm_setting(50, 16)
+@prarail.pwm_setting(100, 23)
 
 puts('testing...')
 @prarail.start
-sleep(10)
+sleep(5)
 @prarail.stop
