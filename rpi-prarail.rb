@@ -137,7 +137,12 @@ end
 
 puts('program started.')
 @prarail = RpiPrarail.new
-@prarail.pwm_setting(100, 23)
+
+# 周波数・デューティー比
+# 周波数は高めの方が安定する？
+# モータ定格は 1.5V のはず、電池はリチウムイオン 3.7V
+@prarail.pwm_setting(100, 40)
+
 
 puts('testing...')
 @prarail.start
